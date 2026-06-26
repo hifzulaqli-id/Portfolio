@@ -1,0 +1,17 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6C63FF"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#F0F0F5" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="900" fill="#0A0A0F"/>
+  <rect width="1200" height="900" fill="url(#grid)"/>
+  <rect x="80" y="80" width="1040" height="740" rx="24" fill="url(#bg)" opacity="0.18"/>
+  <text x="600" y="430" font-size="180" text-anchor="middle">🎓</text>
+  <text x="600" y="560" font-family="Space Grotesk, sans-serif" font-size="64" font-weight="700" fill="#F0F0F5" text-anchor="middle">Certificate</text>
+  <text x="600" y="620" font-family="Inter, sans-serif" font-size="28" fill="#8888A0" text-anchor="middle">Verified Achievement</text>
+</svg>

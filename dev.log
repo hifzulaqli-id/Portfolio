@@ -1,0 +1,247 @@
+
+> portfolio@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 3.1s
+ ○ Compiling /skills ...
+ ✓ Compiled /skills in 7.5s (1366 modules)
+ GET /skills 200 in 7920ms
+ ✓ Compiled in 334ms (660 modules)
+ ○ Compiling /certifications ...
+ ✓ Compiled /certifications in 3.9s (1400 modules)
+ GET /certifications 200 in 4179ms
+ ✓ Compiled /experience in 318ms (1402 modules)
+ GET /experience 200 in 462ms
+ ✓ Compiled /education in 326ms (1423 modules)
+ GET /education 200 in 509ms
+ ✓ Compiled /about in 343ms (1447 modules)
+ GET /about 200 in 562ms
+ ○ Compiling /services ...
+ ✓ Compiled /services in 753ms (1462 modules)
+ GET /services 200 in 938ms
+ ✓ Compiled /blog in 368ms (1475 modules)
+ GET /blog 200 in 501ms
+ ✓ Compiled /thank-you in 335ms (1491 modules)
+ GET /thank-you 200 in 416ms
+ GET /skills 200 in 96ms
+ GET /certifications 200 in 96ms
+ GET /experience 200 in 94ms
+ GET /education 200 in 78ms
+ GET /about 200 in 80ms
+ GET /services 200 in 145ms
+ GET /blog 200 in 92ms
+ ○ Compiling /blog/[slug] ...
+ ✓ Compiled /blog/[slug] in 2.8s (2452 modules)
+ GET /blog/5-tips-website-cepat-nextjs 200 in 3788ms
+ ○ Compiling /api/auth/login ...
+ ✓ Compiled /api/auth/login in 817ms (1332 modules)
+ POST /api/auth/login 200 in 1046ms
+ ✓ Compiled /api/admin/skills in 477ms (1346 modules)
+ POST /api/admin/skills 201 in 632ms
+ ○ Compiling /api/admin/certifications ...
+ ✓ Compiled /api/admin/certifications in 755ms (2530 modules)
+ POST /api/admin/certifications 201 in 663ms
+ ✓ Compiled /api/admin/blog in 725ms (2532 modules)
+ POST /api/admin/blog 201 in 600ms
+ GET /api/admin/skills 200 in 33ms
+ ✓ Compiled in 352ms (1182 modules)
+ ✓ Compiled /api/admin/skills/[id] in 314ms (1352 modules)
+ DELETE /api/admin/skills/sk-mqpv0mmj-acon4 200 in 836ms
+ ✓ Compiled in 280ms (1182 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 1631ms (2523 modules)
+ GET / 200 in 1795ms
+ ○ Compiling /projects ...
+ ✓ Compiled /projects in 967ms (2513 modules)
+ GET /projects 200 in 796ms
+ ○ Compiling /contact ...
+ ✓ Compiled /contact in 1995ms (2703 modules)
+ GET /contact 200 in 2227ms
+ ✓ Compiled /middleware in 297ms (72 modules)
+ ✓ Compiled /admin/login in 482ms (2715 modules)
+ GET /admin/login 200 in 582ms
+ GET / 200 in 168ms
+ GET / 200 in 59ms
+ GET / 200 in 182ms
+ GET / 200 in 132ms
+ ○ Compiling /education ...
+ ✓ Compiled /education in 902ms (756 modules)
+ ✓ Compiled /experience in 199ms (766 modules)
+ ✓ Compiled /blog in 127ms (775 modules)
+ ✓ Compiled /blog/[slug] in 297ms (1267 modules)
+ GET / 200 in 289ms
+ ○ Compiling /contact ...
+ ✓ Compiled /contact in 906ms (1362 modules)
+ ○ Compiling /about ...
+ ✓ Compiled /about in 1147ms (1373 modules)
+ ✓ Compiled /certifications in 321ms (1375 modules)
+ ✓ Compiled /skills in 303ms (1384 modules)
+ ✓ Compiled /experience in 280ms (1388 modules)
+ ✓ Compiled /education in 328ms (903 modules)
+ ✓ Compiled /blog in 189ms (911 modules)
+ GET /experience 200 in 372ms
+ ○ Compiling /projects/[slug] ...
+ ✓ Compiled /projects/[slug] in 2.7s (2189 modules)
+ ✓ Compiled in 15.2s (2172 modules)
+ ✓ Compiled in 1354ms (2172 modules)
+ ✓ Compiled in 1708ms (2172 modules)
+ ✓ Compiled in 1665ms (1300 modules)
+ ✓ Compiled in 1818ms (1300 modules)
+ ✓ Compiled in 3.8s (2172 modules)
+ ✓ Compiled in 971ms (2172 modules)
+ ✓ Compiled in 819ms (2172 modules)
+ ✓ Compiled in 1146ms (2172 modules)
+ ✓ Compiled in 946ms (2172 modules)
+ ✓ Compiled in 1038ms (2172 modules)
+ ✓ Compiled in 822ms (2172 modules)
+ ✓ Compiled in 936ms (2172 modules)
+ ✓ Compiled in 940ms (2172 modules)
+ ✓ Compiled in 805ms (2172 modules)
+ ✓ Compiled in 769ms (2172 modules)
+ ✓ Compiled in 1009ms (2172 modules)
+ ✓ Compiled in 801ms (2172 modules)
+ ✓ Compiled in 503ms (1300 modules)
+ ✓ Compiled in 766ms (2172 modules)
+ ✓ Compiled in 783ms (2172 modules)
+ ✓ Compiled in 771ms (2172 modules)
+ ✓ Compiled in 833ms (2172 modules)
+ ✓ Compiled in 753ms (2172 modules)
+ ✓ Compiled in 760ms (2172 modules)
+ ✓ Compiled in 1005ms (2172 modules)
+ ✓ Compiled in 736ms (2172 modules)
+ ✓ Compiled in 826ms (2172 modules)
+ ✓ Compiled in 420ms (1300 modules)
+ ✓ Compiled in 1309ms (2172 modules)
+ ✓ Compiled in 643ms (1300 modules)
+ ✓ Compiled in 644ms (1300 modules)
+ ✓ Compiled in 543ms (1300 modules)
+ ✓ Compiled in 609ms (1300 modules)
+ ✓ Compiled in 575ms (1300 modules)
+ ✓ Compiled in 901ms (2172 modules)
+ ✓ Compiled in 791ms (2172 modules)
+ ✓ Compiled in 633ms (1300 modules)
+ ✓ Compiled in 582ms (1300 modules)
+ ✓ Compiled in 557ms (1300 modules)
+ ✓ Compiled in 483ms (1300 modules)
+ ✓ Compiled in 517ms (1300 modules)
+ ✓ Compiled in 523ms (1300 modules)
+ ✓ Compiled in 547ms (1300 modules)
+ ✓ Compiled in 573ms (1300 modules)
+ ✓ Compiled in 931ms (1300 modules)
+ ✓ Compiled in 818ms (1300 modules)
+ ✓ Compiled in 1931ms (2172 modules)
+ ✓ Compiled in 1095ms (2172 modules)
+ ✓ Compiled in 661ms (1300 modules)
+ ✓ Compiled in 688ms (1300 modules)
+ ✓ Compiled in 649ms (1300 modules)
+ ✓ Compiled in 704ms (1300 modules)
+ ✓ Compiled in 649ms (1300 modules)
+ ✓ Compiled in 666ms (1300 modules)
+ ✓ Compiled in 1180ms (2172 modules)
+ ✓ Compiled in 930ms (2172 modules)
+ ✓ Compiled in 898ms (2172 modules)
+ ✓ Compiled in 1335ms (1300 modules)
+ ✓ Compiled in 1199ms (2172 modules)
+ ✓ Compiled in 865ms (1300 modules)
+ ✓ Compiled in 360ms (1300 modules)
+ ✓ Compiled in 472ms (1300 modules)
+ ✓ Compiled in 708ms (1300 modules)
+ ✓ Compiled in 376ms (1300 modules)
+ ✓ Compiled in 514ms (1300 modules)
+ ✓ Compiled in 348ms (1300 modules)
+ ✓ Compiled in 1543ms (2172 modules)
+ ✓ Compiled in 481ms (1300 modules)
+ ✓ Compiled in 369ms (1300 modules)
+ ✓ Compiled in 314ms (1300 modules)
+ ✓ Compiled in 625ms (2158 modules)
+ ✓ Compiled in 613ms (2158 modules)
+ ✓ Compiled in 680ms (1300 modules)
+ ✓ Compiled in 344ms (1300 modules)
+ ✓ Compiled in 430ms (1300 modules)
+ ✓ Compiled in 355ms (1300 modules)
+ ✓ Compiled in 744ms (1300 modules)
+ ✓ Compiled in 4.5s (2802 modules)
+ ✓ Compiled in 1142ms (3674 modules)
+ ✓ Compiled in 722ms (2802 modules)
+ ✓ Compiled in 394ms (2802 modules)
+ ✓ Compiled in 899ms (3674 modules)
+ ✓ Compiled in 915ms (3674 modules)
+ ✓ Compiled in 592ms (2802 modules)
+ ✓ Compiled in 606ms (2802 modules)
+ ✓ Compiled in 549ms (2802 modules)
+ ✓ Compiled in 4.5s (2802 modules)
+ ✓ Compiled in 1344ms (3674 modules)
+ ✓ Compiled in 723ms (3674 modules)
+ ✓ Compiled in 1267ms (3674 modules)
+ ✓ Compiled in 930ms (3682 modules)
+ ✓ Compiled in 1698ms (3682 modules)
+ ✓ Compiled in 1625ms (3684 modules)
+ ✓ Compiled in 789ms (3684 modules)
+ ✓ Compiled in 885ms (3684 modules)
+ ✓ Compiled in 819ms (3684 modules)
+ ✓ Compiled in 559ms (2805 modules)
+ ✓ Compiled in 1053ms (2805 modules)
+ ✓ Compiled in 538ms (2805 modules)
+ ✓ Compiled in 970ms (2805 modules)
+ ○ Compiling /admin/login ...
+ ✓ Compiled /admin/login in 4.9s (886 modules)
+ ⨯ TypeError: Cannot read properties of undefined (reading 'clientModules')
+    at C:\Portfolio\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:40:25679
+    at C:\Portfolio\node_modules\next\dist\server\lib\trace\tracer.js:191:62
+    at C:\Portfolio\node_modules\next\dist\server\lib\trace\tracer.js:140:36
+    at NoopContextManager.with (C:\Portfolio\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Portfolio\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NoopTracer.startActiveSpan (C:\Portfolio\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18093)
+    at ProxyTracer.startActiveSpan (C:\Portfolio\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:18854)
+    at C:\Portfolio\node_modules\next\dist\server\lib\trace\tracer.js:122:103
+    at NoopContextManager.with (C:\Portfolio\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:7062)
+    at ContextAPI.with (C:\Portfolio\node_modules\next\dist\compiled\@opentelemetry\api\index.js:1:518)
+    at NextTracerImpl.trace (C:\Portfolio\node_modules\next\dist\server\lib\trace\tracer.js:122:28)
+    at C:\Portfolio\node_modules\next\dist\server\lib\trace\tracer.js:191:31
+    at ne (C:\Portfolio\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:42:1678)
+    at async doRender (C:\Portfolio\node_modules\next\dist\server\base-server.js:1427:30)
+    at async cacheEntry.responseCache.get.routeKind (C:\Portfolio\node_modules\next\dist\server\base-server.js:1588:28) {
+  page: '/admin/login'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 5.4s (3918 modules)
+ GET /admin/login 500 in 11592ms
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Portfolio\.next\server\webpack-runtime.js:33:42)
+    at eval (./components/ui/label.tsx:9:79)
+    at (ssr)/./components/ui/label.tsx (C:\Portfolio\.next\server\app\admin\login\page.js:151:1)
+    at __webpack_require__ (C:\Portfolio\.next\server\webpack-runtime.js:33:42)
+    at eval (./app/admin/login/page.tsx:20:78)
+    at (ssr)/./app/admin/login/page.tsx (C:\Portfolio\.next\server\app\admin\login\page.js:107:1)
+    at Object.__webpack_require__ [as require] (C:\Portfolio\.next\server\webpack-runtime.js:33:42)
+digest: "564632153"
+ GET /admin/login 500 in 177ms
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 672ms (3907 modules)
+ GET /_next/static/chunks/app/admin/login/page.js 404 in 790ms
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at __webpack_require__ (C:\Portfolio\.next\server\webpack-runtime.js:33:42)
+    at eval (./components/ui/label.tsx:9:79)
+    at (ssr)/./components/ui/label.tsx (C:\Portfolio\.next\server\app\admin\login\page.js:151:1)
+    at __webpack_require__ (C:\Portfolio\.next\server\webpack-runtime.js:33:42)
+    at eval (./app/admin/login/page.tsx:20:78)
+    at (ssr)/./app/admin/login/page.tsx (C:\Portfolio\.next\server\app\admin\login\page.js:107:1)
+    at Object.__webpack_require__ [as require] (C:\Portfolio\.next\server\webpack-runtime.js:33:42)
+digest: "564632153"
+ GET /admin/login 500 in 209ms
+ GET /_next/static/chunks/app/admin/login/page.js 404 in 21ms
+ GET / 200 in 275ms
+ ✓ Compiled in 3.3s (2990 modules)
+ ○ Compiling /admin ...
+ ✓ Compiled /_not-found in 8s (4971 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /_next/static/webpack/c51539f015b8014d.webpack.hot-update.json 404 in 7654ms
+ GET /admin 200 in 8984ms
+ GET / 200 in 878ms
+ ✓ Compiled in 942ms (3512 modules)
+ ○ Compiling /admin/projects ...
