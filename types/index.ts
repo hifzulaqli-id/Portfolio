@@ -41,6 +41,8 @@ export interface Project {
   content?: string;
   tech_stack: TechItem[];
   thumbnail_url: string;
+  /** Video/voice media URL (YouTube link for video, audio URL for voice) */
+  media_url?: string | null;
   gallery: GalleryItem[];
   /** @deprecated Use links array instead */
   live_url?: string | null;

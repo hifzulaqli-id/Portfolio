@@ -41,6 +41,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { ConfirmDelete } from "@/components/admin/confirm-delete";
+import { ImageInput } from "@/components/admin/image-input";
 import { skillSchema, type SkillFormValues } from "@/lib/validations";
 import {
   SKILL_CATEGORY_META,
@@ -282,7 +283,7 @@ function SkillFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{isEdit ? "Edit Skill" : "Tambah Skill"}</DialogTitle>
           <DialogDescription>
@@ -347,15 +348,17 @@ function SkillFormDialog({
             />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label>Icon URL (opsional)</Label>
-              <Input placeholder="/images/icon.svg atau https://..." {...register("icon_url")} />
-            </div>
-            <div className="space-y-2">
-              <Label>Urutan</Label>
-              <Input type="number" min={0} {...register("display_order")} />
-            </div>
+          <div className="space-y-2">
+            <ImageInput
+              label="Icon (opsional)"
+              value={watch("icon_url") ?? ""}
+              onChange={(val) => setValue("icon_url", val, { shouldDirty: true })}
+              aspectRatio="square"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Urutan</Label>
+            <Input type="number" min={0} {...register("display_order")} />
           </div>
 
           <label className="flex items-center gap-2 text-sm">

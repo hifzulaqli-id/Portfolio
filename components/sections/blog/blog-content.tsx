@@ -21,6 +21,7 @@ export function BlogContent({ content }: { content: string }) {
       containerRef.current.querySelectorAll("h2, h3")
     ) as HTMLHeadingElement[];
     const items: TocItem[] = headings.map((h, i) => {
+      // If it's from Quill, it might not have an id yet, or it might have a messy one.
       const text = h.textContent ?? `section-${i}`;
       const id = slugifyHeading(text);
       h.id = id;
@@ -32,12 +33,20 @@ export function BlogContent({ content }: { content: string }) {
       };
     });
     setToc(items);
-  }, []);
+  }, [content]); // Added content to dependency array so it re-runs when content changes
+
+  // Quill always wraps content in block tags like <p>, <h1>, <ul>, etc.
+  // This strict regex prevents false positives from Markdown that contains code snippets with HTML tags.
+  const isHtml = /^<(p|h[1-6]|ul|ol|blockquote|pre|div|table)(>|\s)/i.test(content.trim());
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_16rem]">
-      <article ref={containerRef}>
-        <Markdown>{content}</Markdown>
+      <article ref={containerRef} className="min-w-0">
+        {isHtml ? (
+          <div className="prose-custom rich-text-content" dangerouslySetInnerHTML={{ __html: content }} />
+        ) : (
+          <Markdown>{content}</Markdown>
+        )}
       </article>
       {toc.length > 0 && (
         <aside className="hidden lg:block">

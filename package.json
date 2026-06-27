@@ -33,6 +33,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.1",
     "react-markdown": "^10.1.0",
+    "react-quill-new": "^3.8.3",
     "recharts": "^2.13.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",

@@ -14,6 +14,11 @@ export async function createClient() {
       autoRefreshToken: false,
       detectSessionInUrl: false,
     },
+    global: {
+      fetch: (fetchUrl, options) => {
+        return fetch(fetchUrl, { ...options, cache: 'no-store' });
+      },
+    },
   });
 }
 
@@ -24,5 +29,10 @@ export function createServiceClient() {
   if (!url || !serviceKey) return null;
   return supabaseCreateClient(url, serviceKey, {
     auth: { persistSession: false, autoRefreshToken: false },
+    global: {
+      fetch: (fetchUrl, options) => {
+        return fetch(fetchUrl, { ...options, cache: 'no-store' });
+      },
+    },
   });
 }

@@ -34,6 +34,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { ConfirmDelete } from "@/components/admin/confirm-delete";
+import { ImageInput } from "@/components/admin/image-input";
 import { certificationSchema, type CertificationFormValues } from "@/lib/validations";
 import {
   CERT_CATEGORY_META,
@@ -254,12 +255,21 @@ function CertFormDialog({
         body: JSON.stringify(data),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json?.error ?? "Gagal menyimpan");
+      if (!res.ok) {
+        if (json?.issues) {
+          console.error("Validation issues:", json.issues);
+          const issueMsgs = Object.entries(json.issues).map(([k, v]) => `${k}: ${v}`).join(", ");
+          throw new Error(`Validasi gagal: ${issueMsgs}`);
+        }
+        throw new Error(json?.error ?? "Gagal menyimpan");
+      }
       toast.success(isEdit ? "Sertifikat diperbarui." : "Sertifikat dibuat.");
       onOpenChange(false);
       router.refresh();
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Gagal menyimpan");
+      toast.error(err instanceof Error ? err.message : "Gagal menyimpan", {
+        duration: 8000,
+      });
     } finally {
       setSubmitting(false);
     }
@@ -342,8 +352,15 @@ function CertFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label>Gambar Sertifikat (URL)</Label>
-            <Input placeholder="/images/cert-1.svg atau https://..." {...register("certificate_image_url")} />
+            <ImageInput
+              label="Gambar Sertifikat (opsional)"
+              value={watch("certificate_image_url") ?? ""}
+              onChange={(val) => setValue("certificate_image_url", val, { shouldDirty: true })}
+              aspectRatio="video"
+            />
+            {errors.certificate_image_url && (
+              <p className="text-xs text-destructive">{errors.certificate_image_url.message}</p>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-6">

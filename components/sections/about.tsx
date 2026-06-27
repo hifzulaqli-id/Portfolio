@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import { Sparkles, Code2, Palette, Video, Mic } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ScrollReveal } from "@/components/shared/scroll-reveal";
@@ -209,6 +210,8 @@ const SERVICES_TAGS = [
 function SkillIcon({ skill, index }: { skill: Skill; index: number }) {
   const [hovered, setHovered] = useState(false);
   const icon = TechIcons[skill.name];
+  const hasCustomIcon = !!skill.icon_url;
+  const isDataUrl = hasCustomIcon && skill.icon_url!.startsWith("data:");
 
   return (
     <motion.div
@@ -223,11 +226,22 @@ function SkillIcon({ skill, index }: { skill: Skill; index: number }) {
       <motion.div
         whileHover={{ y: -5, scale: 1.12 }}
         transition={{ duration: 0.2, ease: "easeOut" }}
-        className="group relative flex h-[60px] w-[60px] cursor-default items-center justify-center rounded-2xl border border-border/60 bg-background/80 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10"
+        className="group relative flex h-[60px] w-[60px] cursor-default items-center justify-center rounded-2xl border border-border/60 bg-background/80 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 overflow-hidden"
         title={skill.name}
         style={icon ? { boxShadow: hovered ? `0 8px 24px ${icon.color}30` : undefined } : undefined}
       >
-        {icon ? (
+        {hasCustomIcon ? (
+          <span className="flex items-center justify-center h-8 w-8">
+            <Image 
+              src={skill.icon_url!} 
+              alt={skill.name} 
+              width={32} 
+              height={32} 
+              className="object-contain" 
+              unoptimized={isDataUrl} 
+            />
+          </span>
+        ) : icon ? (
           <span className="flex-shrink-0 [&>svg]:!h-8 [&>svg]:!w-8">
             {icon.svg}
           </span>

@@ -43,13 +43,19 @@ export const projectSchema = z
     category: z.enum(CATEGORY_VALUES),
     design_type: z
       .enum(DESIGN_TYPE_VALUES)
-      .optional()
       .nullable()
-      .default(null),
+      .default(null)
+      .transform((v) => v ?? null),
     description: z.string().min(10, "Deskripsi minimal 10 karakter").max(280),
     content: z.string().max(8000).optional().or(z.literal("")),
     tech_stack: z.array(z.object({ name: z.string().min(1), icon: z.string().default("Code2") })).default([]),
     thumbnail_url: urlOrPath,
+    media_url: z
+      .string()
+      .optional()
+      .nullable()
+      .or(z.literal(""))
+      .transform(toNullIfEmpty),
     gallery: z.array(z.object({ url: urlOrPath, caption: z.string().default("") })).default([]),
     // New flexible links array — filter out links with empty URLs before saving
     links: z
@@ -65,11 +71,13 @@ export const projectSchema = z
     live_url: z
       .string()
       .optional()
+      .nullable()
       .or(z.literal(""))
       .transform(toNullIfEmpty),
     github_url: z
       .string()
       .optional()
+      .nullable()
       .or(z.literal(""))
       .transform(toNullIfEmpty),
     status: z.enum(STATUS_VALUES).default("draft"),
@@ -90,6 +98,33 @@ export const projectSchema = z
         code: z.ZodIssueCode.custom,
         message: "Instagram Feed minimal membutuhkan 3 gambar gallery",
         path: ["gallery"],
+      });
+    }
+    // Video projects require a media_url (YouTube link)
+    if (data.category === "video" && !data.media_url) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Video wajib memiliki URL YouTube",
+        path: ["media_url"],
+      });
+    }
+    // Voice projects require a media_url (audio link)
+    if (data.category === "voice" && !data.media_url) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Voice Over wajib memiliki URL audio",
+        path: ["media_url"],
+      });
+    }
+    // Web & Design projects require a thumbnail_url
+    if (
+      (data.category === "web" || data.category === "design") &&
+      !data.thumbnail_url.trim()
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Thumbnail wajib untuk kategori ini",
+        path: ["thumbnail_url"],
       });
     }
   });
@@ -117,7 +152,7 @@ export const profileSchema = z.object({
   tagline: z.string().max(140).optional().or(z.literal("")),
   bio: z.string().max(2000).optional().or(z.literal("")),
   photo_url: urlOrPath,
-  cv_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  cv_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   instagram_url: z
     .string()
     .optional()
@@ -178,7 +213,7 @@ export const skillSchema = z.object({
     .int()
     .min(0, "Minimal 0")
     .max(100, "Maksimal 100"),
-  icon_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  icon_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   display_order: z.coerce.number().int().min(0).default(0),
   is_active: z.coerce.boolean().default(true),
 });
@@ -199,13 +234,13 @@ export const CERT_STATUS_VALUES = ["verified", "in-progress", "expired"] as cons
 export const certificationSchema = z.object({
   name: z.string().min(3, "Nama sertifikat minimal 3 karakter").max(160),
   issuer: z.string().min(2, "Nama penerbit minimal 2 karakter").max(120),
-  issuer_logo_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  issuer_logo_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   category: z.enum(CERT_CATEGORY_VALUES),
-  issue_date: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
-  expiry_date: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
-  credential_id: z.string().max(120).optional().or(z.literal("")).transform(toNullIfEmpty),
-  credential_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
-  certificate_image_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  issue_date: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  expiry_date: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  credential_id: z.string().max(120).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  credential_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  certificate_image_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   badge_status: z.enum(CERT_STATUS_VALUES).default("verified"),
   is_public: z.coerce.boolean().default(true),
   is_featured: z.coerce.boolean().default(false),
@@ -233,19 +268,19 @@ export const experienceSchema = z.object({
   type: z.enum(EXPERIENCE_TYPE_VALUES),
   position: z.string().min(2, "Posisi minimal 2 karakter").max(120),
   company: z.string().min(2, "Nama perusahaan/organisasi minimal 2 karakter").max(120),
-  logo_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
-  location: z.string().max(120).optional().or(z.literal("")).transform(toNullIfEmpty),
+  logo_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  location: z.string().max(120).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   employment_type: z.preprocess(
     (v) => (v === "" || v == null ? null : v),
     z.enum(EMPLOYMENT_TYPE_VALUES).nullable()
   ),
   start_date: z.string().min(4, "Tanggal mulai wajib"),
-  end_date: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  end_date: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   is_current: z.coerce.boolean().default(false),
   description: z.string().max(2000).optional().or(z.literal("")),
   tech_stack: z.array(z.string()).default([]),
   achievements: z.string().max(2000).optional().or(z.literal("")),
-  company_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  company_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   display_order: z.coerce.number().int().min(0).default(0),
   is_active: z.coerce.boolean().default(true),
 });
@@ -263,8 +298,8 @@ export const educationSchema = z.object({
   type: z.enum(EDUCATION_TYPE_VALUES),
   institution: z.string().min(2, "Nama institusi minimal 2 karakter").max(120),
   field_of_study: z.string().min(2, "Jurusan/nama kursus minimal 2 karakter").max(120),
-  logo_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
-  degree_level: z.string().max(60).optional().or(z.literal("")).transform(toNullIfEmpty),
+  logo_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  degree_level: z.string().max(60).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   start_year: z.coerce.number().int().min(1900).max(2100).optional().or(z.literal(0)).transform((v) => (v ? v : null)),
   end_year: z.coerce.number().int().min(1900).max(2100).optional().or(z.literal(0)).transform((v) => (v ? v : null)),
   is_current: z.coerce.boolean().default(false),
@@ -272,7 +307,7 @@ export const educationSchema = z.object({
   description: z.string().max(2000).optional().or(z.literal("")),
   relevant_subjects: z.array(z.string()).default([]),
   achievements: z.string().max(2000).optional().or(z.literal("")),
-  institution_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  institution_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   display_order: z.coerce.number().int().min(0).default(0),
 });
 export type EducationFormValues = z.infer<typeof educationSchema>;
@@ -283,15 +318,15 @@ export const BLOG_STATUS_VALUES = ["draft", "published"] as const;
 export const blogSchema = z.object({
   title: z.string().min(3, "Judul minimal 3 karakter").max(200),
   slug: z.string().max(200).optional().or(z.literal("")).transform((v) => (v ? v : undefined)),
-  category: z.string().max(60).optional().or(z.literal("")).transform(toNullIfEmpty),
-  thumbnail_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  category: z.string().max(60).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  thumbnail_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   excerpt: z.string().max(400).optional().or(z.literal("")),
   content: z.string().max(60000).optional().or(z.literal("")),
   tags: z.array(z.string()).default([]),
   reading_time: z.coerce.number().int().min(0).optional(),
   status: z.enum(BLOG_STATUS_VALUES).default("draft"),
   is_featured: z.coerce.boolean().default(false),
-  published_at: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  published_at: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
 });
 export type BlogFormValues = z.infer<typeof blogSchema>;
 
@@ -301,9 +336,9 @@ export const ACCENT_PRESETS = ["#6C63FF", "#00D4AA", "#EC4899", "#F97316", "#3B8
 export const siteSettingsSchema = z.object({
   site_title: z.string().min(2).max(160),
   site_description: z.string().max(400).optional().or(z.literal("")),
-  og_image_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  og_image_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   seo_keywords: z.array(z.string()).default([]),
-  google_analytics_id: z.string().max(40).optional().or(z.literal("")).transform(toNullIfEmpty),
+  google_analytics_id: z.string().max(40).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   maintenance_mode: z.coerce.boolean().default(false),
   maintenance_message: z.string().max(400).optional().or(z.literal("")),
   accent_color: z.string().default("#6C63FF"),
@@ -322,8 +357,8 @@ export const navItemSchema = z.object({
   location: z.enum(NAV_LOCATION_VALUES),
   label: z.string().min(1, "Label wajib").max(60),
   href: z.string().min(1, "URL/href wajib").max(200),
-  icon: z.string().max(60).optional().or(z.literal("")).transform(toNullIfEmpty),
-  description: z.string().max(160).optional().or(z.literal("")).transform(toNullIfEmpty),
+  icon: z.string().max(60).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  description: z.string().max(160).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   display_order: z.coerce.number().int().min(0).default(0),
   is_active: z.coerce.boolean().default(true),
   open_in_new_tab: z.coerce.boolean().default(false),
@@ -333,8 +368,8 @@ export type NavItemFormValues = z.infer<typeof navItemSchema>;
 // ─────────────────────────── Testimonials ──────────────────────
 export const testimonialSchema = z.object({
   client_name: z.string().min(2, "Nama minimal 2 karakter").max(80),
-  client_role: z.string().max(120).optional().or(z.literal("")).transform(toNullIfEmpty),
-  avatar_url: z.string().optional().or(z.literal("")).transform(toNullIfEmpty),
+  client_role: z.string().max(120).nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
+  avatar_url: z.string().nullable().optional().or(z.literal("")).transform(toNullIfEmpty),
   content: z.string().min(10, "Testimoni minimal 10 karakter").max(1000),
   rating: z.coerce.number().int().min(1, "Minimal 1").max(5, "Maksimal 5"),
   is_visible: z.coerce.boolean().default(true),

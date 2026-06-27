@@ -49,6 +49,7 @@ const DEFAULTS: ProjectFormValues = {
   content: "",
   tech_stack: [],
   thumbnail_url: "",
+  media_url: null,
   gallery: [],
   links: [],
   live_url: null,
@@ -85,6 +86,11 @@ export function ProjectFormDialog({
   const links = watch("links");
   const category = watch("category");
   const designType = watch("design_type");
+  const mediaUrl = watch("media_url");
+
+  const isVideo = category === "video";
+  const isVoice = category === "voice";
+  const isMediaCategory = isVideo || isVoice;
 
   // helpers for gallery [{url, caption}]
   const addGallery = () =>
@@ -138,6 +144,7 @@ export function ProjectFormDialog({
           content: project.content ?? "",
           tech_stack: project.tech_stack,
           thumbnail_url: project.thumbnail_url,
+          media_url: project.media_url ?? null,
           gallery: project.gallery,
           links: project.links ?? [],
           live_url: project.live_url,
@@ -201,7 +208,12 @@ export function ProjectFormDialog({
         </DialogHeader>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, (err) => {
+            const msgs = Object.values(err)
+              .flatMap((e) => (e.message ? [e.message] : []))
+              .join(", ");
+            toast.error(msgs || "Form belum lengkap. Periksa kembali field yang wajib diisi.");
+          })}
           className="space-y-4"
           noValidate
         >
@@ -371,16 +383,57 @@ export function ProjectFormDialog({
             )}
           </div>
 
-          <ImageInput
-            label="Thumbnail *"
-            value={watch("thumbnail_url")}
-            onChange={(val) => setValue("thumbnail_url", val, { shouldDirty: true })}
-            aspectRatio={designType === "poster" ? "portrait" : "video"}
-          />
-          {errors.thumbnail_url && (
-            <p className="text-xs text-destructive">
-              {errors.thumbnail_url.message}
-            </p>
+          {/* Media URL for Video & Voice categories */}
+          {isMediaCategory && (
+            <div className="space-y-2">
+              <Label>URL YouTube / Media *</Label>
+              <Input
+                type="url"
+                placeholder="https://www.youtube.com/watch?v=..."
+                value={mediaUrl ?? ""}
+                onChange={(e) => setValue("media_url", e.target.value || null, { shouldDirty: true })}
+              />
+              <p className="text-xs text-muted-foreground">
+                Tempel link YouTube (watch?v=, youtu.be). Media akan ditampilkan langsung di halaman project.
+              </p>
+              {errors.media_url && (
+                <p className="text-xs text-destructive">
+                  {errors.media_url.message}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Thumbnail — only for web & design categories */}
+          {!isMediaCategory && (
+            <>
+              <ImageInput
+                label="Thumbnail *"
+                value={watch("thumbnail_url")}
+                onChange={(val) => setValue("thumbnail_url", val, { shouldDirty: true })}
+                aspectRatio={designType === "poster" ? "portrait" : "video"}
+              />
+              {errors.thumbnail_url && (
+                <p className="text-xs text-destructive">
+                  {errors.thumbnail_url.message}
+                </p>
+              )}
+            </>
+          )}
+
+          {/* Optional thumbnail for video/voice (shown as card cover if provided) */}
+          {isMediaCategory && (
+            <>
+              <ImageInput
+                label="Cover (opsional)"
+                value={watch("thumbnail_url")}
+                onChange={(val) => setValue("thumbnail_url", val, { shouldDirty: true })}
+                aspectRatio="video"
+              />
+              <p className="-mt-2 text-xs text-muted-foreground">
+                Jika dikosongkan, card akan menampilkan ikon {isVideo ? "video" : "audio"}.
+              </p>
+            </>
           )}
 
           {/* Gallery with Caption */}

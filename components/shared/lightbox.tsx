@@ -92,6 +92,7 @@ export function Lightbox({ items, index, onClose, onNavigate }: LightboxProps) {
             sizes="90vw"
             className="object-contain"
             priority
+            unoptimized={item.src?.startsWith("data:")}
           />
         </div>
         {item.caption && (

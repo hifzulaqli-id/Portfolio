@@ -49,9 +49,20 @@ export function ProjectsManager({ projects }: { projects: Project[] }) {
     setEditing(null);
     setFormOpen(true);
   };
-  const openEdit = (p: Project) => {
-    setEditing(p);
-    setFormOpen(true);
+  const openEdit = async (p: Project) => {
+    setBusy(p.id);
+    try {
+      const res = await fetch(`/api/admin/projects/${p.id}`);
+      if (!res.ok) throw new Error("Gagal mengambil detail proyek");
+      const data = await res.json();
+      setEditing(data.project);
+    } catch {
+      toast.error("Gagal mengambil detail proyek. Menggunakan data yang ada.");
+      setEditing(p);
+    } finally {
+      setBusy(null);
+      setFormOpen(true);
+    }
   };
 
   const toggle = async (p: Project) => {

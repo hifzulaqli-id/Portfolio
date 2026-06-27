@@ -30,6 +30,8 @@ import {
 import { TagInput } from "@/components/admin/tag-input";
 import { ConfirmDelete } from "@/components/admin/confirm-delete";
 import { Markdown } from "@/components/shared/markdown";
+import { RichTextEditor } from "@/components/admin/rich-text-editor";
+import { ImageInput } from "@/components/admin/image-input";
 import { blogSchema, type BlogFormValues } from "@/lib/validations";
 import { estimateReadingTime } from "@/lib/blog-utils";
 import { slugify } from "@/lib/utils";
@@ -194,7 +196,6 @@ function BlogFormDialog({
   const router = useRouter();
   const isEdit = Boolean(post);
   const [submitting, setSubmitting] = React.useState(false);
-  const [showPreview, setShowPreview] = React.useState(false);
 
   const {
     register,
@@ -227,7 +228,6 @@ function BlogFormDialog({
             }
           : DEFAULTS
       );
-      setShowPreview(false);
     }
   }, [open, post, reset]);
 
@@ -290,14 +290,10 @@ function BlogFormDialog({
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label>Kategori</Label>
               <Input placeholder="Web Development" {...register("category")} />
-            </div>
-            <div className="space-y-2">
-              <Label>Thumbnail (URL)</Label>
-              <Input placeholder="/images/blog-1.svg" {...register("thumbnail_url")} />
             </div>
             <div className="space-y-2">
               <Label>Status</Label>
@@ -313,6 +309,15 @@ function BlogFormDialog({
           </div>
 
           <div className="space-y-2">
+            <ImageInput
+              label="Thumbnail Gambar"
+              value={watch("thumbnail_url") ?? ""}
+              onChange={(val) => setValue("thumbnail_url", val, { shouldDirty: true })}
+              aspectRatio="video"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label>Excerpt</Label>
             <Textarea rows={2} placeholder="Ringkasan singkat untuk kartu..." {...register("excerpt")} />
           </div>
@@ -322,46 +327,16 @@ function BlogFormDialog({
             <TagInput value={watch("tags") ?? []} onChange={(v) => setValue("tags", v)} placeholder="cth: Next.js, lalu Enter" />
           </div>
 
-          {/* Markdown editor with live preview */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>
-                Konten (Markdown) · est. {readingTime} mnt baca
-              </Label>
-              <div className="flex gap-1 rounded-lg bg-muted p-0.5 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setShowPreview(false)}
-                  className={!showPreview ? "rounded-md bg-background px-3 py-1 font-medium shadow-sm" : "px-3 py-1 text-muted-foreground"}
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowPreview(true)}
-                  className={showPreview ? "rounded-md bg-background px-3 py-1 font-medium shadow-sm" : "px-3 py-1 text-muted-foreground"}
-                >
-                  Preview
-                </button>
-              </div>
+              <Label>Konten / Isi Artikel *</Label>
+              <span className="text-xs text-muted-foreground">{readingTime} menit baca</span>
             </div>
-            {showPreview ? (
-              <div className="min-h-[280px] rounded-md border border-input bg-background/40 p-4">
-                {content.trim() ? (
-                  <Markdown>{content}</Markdown>
-                ) : (
-                  <p className="text-sm text-muted-foreground">Belum ada konten untuk dipratinjau.</p>
-                )}
-              </div>
-            ) : (
-              <Textarea
-                rows={12}
-                placeholder={"## Judul\n\nTulis dengan Markdown. ```tsx\nconst x = 1;\n```"}
-                value={content}
-                onChange={(e) => setValue("content", e.target.value)}
-                className="font-mono text-sm"
-              />
-            )}
+            <RichTextEditor
+              value={watch("content") ?? ""}
+              onChange={(val) => setValue("content", val, { shouldDirty: true, shouldValidate: true })}
+            />
+            {errors.content && <p className="text-xs text-destructive">{errors.content.message}</p>}
           </div>
 
           <label className="flex items-center gap-2 text-sm">

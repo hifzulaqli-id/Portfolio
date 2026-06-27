@@ -13,7 +13,7 @@ import {
 export function SkillRow({ skill, delay = 0 }: { skill: Skill; delay?: number }) {
   const level = SKILL_LEVEL_META[skill.level];
   const icon = skill.icon || skill.icon_url;
-  const isLucideIcon = icon && !icon.startsWith("http") && !icon.startsWith("/");
+  const isLucideIcon = icon && !icon.startsWith("http") && !icon.startsWith("/") && !icon.startsWith("data:");
 
   return (
     <div className="rounded-xl border border-border bg-card/40 p-4">
@@ -23,7 +23,14 @@ export function SkillRow({ skill, delay = 0 }: { skill: Skill; delay?: number })
             {isLucideIcon ? (
               <LucideIcon name={icon} className="h-5 w-5" />
             ) : (
-              <Image src={icon} alt="" width={20} height={20} className="object-contain" />
+              <Image 
+                src={icon} 
+                alt="" 
+                width={20} 
+                height={20} 
+                className="object-contain" 
+                unoptimized={icon.startsWith("data:")}
+              />
             )}
           </div>
         )}

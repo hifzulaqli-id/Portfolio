@@ -16,6 +16,31 @@ async function ensureAuth() {
   return null;
 }
 
+export async function GET(
+  _req: Request,
+  { params }: { params: { id: string } }
+) {
+  const auth = await ensureAuth();
+  if (auth) return auth;
+
+  try {
+    const { createServiceClient } = await import("@/lib/supabase/server");
+    const sb = await createServiceClient();
+    if (!sb) return NextResponse.json({ error: "DB Error" }, { status: 500 });
+
+    const { data, error } = await sb.from("projects").select("*").eq("id", params.id).single();
+    if (error) throw error;
+    
+    // We need to apply the migrateProjectRow logic
+    const { migrateProjectRow } = await import("@/lib/data/projects");
+    const project = migrateProjectRow(data as Record<string, unknown>);
+    
+    return NextResponse.json({ project });
+  } catch (err) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+}
+
 export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
@@ -47,10 +72,12 @@ export async function PUT(
       title: d.title,
       slug: d.slug,
       category: d.category,
+      design_type: d.design_type,
       description: d.description,
       content: d.content,
       tech_stack: d.tech_stack,
       thumbnail_url: d.thumbnail_url,
+      media_url: d.media_url,
       gallery: d.gallery,
       links: d.links,
       live_url: d.live_url,

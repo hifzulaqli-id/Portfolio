@@ -21,6 +21,8 @@ import { ScrollReveal } from "@/components/shared/scroll-reveal";
 import { ProjectLinkIcon } from "@/components/shared/link-icon";
 import { TechStack } from "@/components/shared/tech-stack";
 import { GalleryLightbox } from "@/components/shared/gallery-lightbox";
+import { VideoEmbed } from "@/components/shared/video-embed";
+import { AudioPlayer } from "@/components/shared/audio-player";
 import {
   getProjectBySlug,
   getProjectNeighbors,
@@ -71,6 +73,8 @@ export default async function ProjectDetailPage({ params }: Params) {
 
   const isIgFeed = project.category === "design" && project.design_type === "instagram_feed";
   const isPoster = project.category === "design" && project.design_type === "poster";
+  const isVideo = project.category === "video";
+  const isVoice = project.category === "voice";
 
   // Determine gallery variant
   const galleryVariant = isIgFeed
@@ -128,23 +132,22 @@ export default async function ProjectDetailPage({ params }: Params) {
             </p>
           </div>
 
-          {/* Hero Image — hidden for Instagram Feed, portrait for Poster */}
-          {!isIgFeed && (
-          <div className={cn(
-            "relative overflow-hidden rounded-2xl border border-border bg-card",
-            isPoster ? "aspect-[3/4] max-w-md mx-auto" : "aspect-video"
-          )}>
-            <Image
-              src={project.thumbnail_url}
-              alt={project.title}
-              fill
-              priority
-              sizes={isPoster ? "(max-width: 768px) 80vw, 400px" : "(max-width: 1200px) 100vw, 1200px"}
-              className="object-cover"
-              unoptimized={isDataUrl(project.thumbnail_url)}
-            />
+          {/* Hero Image / Media */}
+          <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card">
+            {(isVideo || isVoice) && project.media_url ? (
+              <VideoEmbed url={project.media_url} className="h-full w-full rounded-none border-0" />
+            ) : (
+              <Image
+                src={project.thumbnail_url}
+                alt={project.title}
+                fill
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className="object-cover"
+                unoptimized={isDataUrl(project.thumbnail_url)}
+              />
+            )}
           </div>
-          )}
 
           {/* Action Buttons — Project Links */}
           <div className="mt-6 flex flex-wrap gap-3">

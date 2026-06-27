@@ -3,9 +3,9 @@
  * Compresses & resizes images to data URLs (base64) for JSON storage
  */
 
-const MAX_WIDTH = 2000;
-const MAX_SIZE_KB = 2000;
-const QUALITY = 0.92;
+const MAX_WIDTH = 800;
+const MAX_SIZE_KB = 400;
+const QUALITY = 0.7;
 
 export interface ImageUploadResult {
   dataUrl: string;

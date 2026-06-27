@@ -54,11 +54,6 @@ function ProjectCardNew({ project, index }: { project: Project; index: number })
   const meta = CATEGORY_META[project.category];
   const theme = CATEGORY_CARD_THEME[project.category];
   const Icon = CATEGORY_ICONS[project.category] ?? Globe;
-  const isIgFeed = project.category === "design" && project.design_type === "instagram_feed";
-  const isPoster = project.category === "design" && project.design_type === "poster";
-
-  // Collect gallery image URLs for IG mini grid preview
-  const galleryUrls = project.gallery?.map((g) => g.url).filter(Boolean) ?? [];
 
   return (
     <motion.div
@@ -75,55 +70,9 @@ function ProjectCardNew({ project, index }: { project: Project; index: number })
           theme?.glow
         )}
       >
-        {/* Thumbnail */}
-        {isIgFeed && galleryUrls.length > 0 ? (
-          // Instagram Feed: mini 3-col grid preview
-          <div className="relative aspect-square overflow-hidden bg-muted/40">
-            <div className="grid grid-cols-3 gap-0.5 h-full w-full">
-              {galleryUrls.slice(0, 9).map((url, i) => (
-                <div key={i} className="relative aspect-square overflow-hidden bg-muted/40">
-                  <Image
-                    src={url}
-                    alt=""
-                    fill
-                    sizes="120px"
-                    className="object-cover"
-                    unoptimized={isDataUrl(url)}
-                  />
-                </div>
-              ))}
-            </div>
-            {/* Overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-            {/* Category badge */}
-            <div className={cn(
-              "absolute left-3 top-3 flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-[11px] font-bold backdrop-blur-md shadow-sm",
-              theme?.badge
-            )}>
-              <Icon className="h-3 w-3" />
-              {meta.short}
-            </div>
-
-            {/* Arrow button on hover */}
-            <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-gray-900 opacity-0 shadow-md backdrop-blur-md transition-all duration-300 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0">
-              <ArrowUpRight className="h-4 w-4" />
-            </div>
-
-            {/* View overlay on hover */}
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-              <span className="flex items-center gap-2 rounded-xl bg-white/90 px-4 py-2 text-xs font-bold text-gray-900 shadow-lg backdrop-blur-md">
-                <ExternalLink className="h-3.5 w-3.5" />
-                Lihat Detail
-              </span>
-            </div>
-          </div>
-        ) : (
-          // Default / Poster: single image thumbnail
-          <div className={cn(
-            "relative overflow-hidden bg-muted/40",
-            isPoster ? "aspect-[3/4]" : "aspect-[16/10]"
-          )}>
+        {/* Thumbnail — image if available, otherwise category icon placeholder */}
+        <div className="relative aspect-[16/10] overflow-hidden bg-muted/40">
+          {project.thumbnail_url ? (
             <Image
               src={project.thumbnail_url}
               alt={project.title}
@@ -132,32 +81,41 @@ function ProjectCardNew({ project, index }: { project: Project; index: number })
               className="object-cover transition-transform duration-600 group-hover:scale-108"
               unoptimized={isDataUrl(project.thumbnail_url)}
             />
-            {/* Overlay on hover */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-
-            {/* Category badge */}
+          ) : (
             <div className={cn(
-              "absolute left-3 top-3 flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-[11px] font-bold backdrop-blur-md shadow-sm",
-              theme?.badge
+              "absolute inset-0 flex items-center justify-center bg-gradient-to-br",
+              project.category === "video" && "from-pink-500/15 via-card to-pink-500/5",
+              project.category === "voice" && "from-emerald-500/15 via-card to-emerald-500/5",
+              (project.category === "web" || project.category === "design") && "from-primary/10 via-card to-primary/5"
             )}>
-              <Icon className="h-3 w-3" />
-              {meta.short}
+              <Icon className="h-14 w-14 text-muted-foreground/40 transition-transform duration-500 group-hover:scale-110" />
             </div>
+          )}
+          {/* Overlay on hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-            {/* Arrow button on hover */}
-            <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-gray-900 opacity-0 shadow-md backdrop-blur-md transition-all duration-300 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0">
-              <ArrowUpRight className="h-4 w-4" />
-            </div>
-
-            {/* View overlay on hover */}
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-              <span className="flex items-center gap-2 rounded-xl bg-white/90 px-4 py-2 text-xs font-bold text-gray-900 shadow-lg backdrop-blur-md">
-                <ExternalLink className="h-3.5 w-3.5" />
-                Lihat Detail
-              </span>
-            </div>
+          {/* Category badge */}
+          <div className={cn(
+            "absolute left-3 top-3 flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-[11px] font-bold backdrop-blur-md shadow-sm",
+            theme?.badge
+          )}>
+            <Icon className="h-3 w-3" />
+            {meta.short}
           </div>
-        )}
+
+          {/* Arrow button on hover */}
+          <div className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-gray-900 opacity-0 shadow-md backdrop-blur-md transition-all duration-300 group-hover:opacity-100 -translate-y-1 group-hover:translate-y-0">
+            <ArrowUpRight className="h-4 w-4" />
+          </div>
+
+          {/* View overlay on hover */}
+          <div className="absolute bottom-4 left-0 right-0 flex justify-center opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+            <span className="flex items-center gap-2 rounded-xl bg-white/90 px-4 py-2 text-xs font-bold text-gray-900 shadow-lg backdrop-blur-md">
+              <ExternalLink className="h-3.5 w-3.5" />
+              Lihat Detail
+            </span>
+          </div>
+        </div>
 
         {/* Content */}
         <div className="flex flex-1 flex-col gap-3 p-5">
