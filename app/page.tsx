@@ -16,6 +16,7 @@ import { getSkills } from "@/lib/data/skills";
 
 // Revalidate every 60s — ISR. Admin edits trigger immediate revalidation.
 export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
   const [
